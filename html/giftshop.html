@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Museum of Cultural Memory</title>
+     <meta name="author" content="Julie G.">
+    <link rel="stylesheet" href="../css/gift-style.css">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
+</style>
+</head>
+
+
+<header>
+
+<h1>Gift Shop</h1>
+    <nav>
+         <button id="head" onclick="location.href='../index.html'">Home</button>
+          <button id="head" onclick="location.href='staff.html'">Staff</button>
+            <button id="head" onclick="location.href='collections.html'">Collections</button> 
+
+        
+    </nav>
+
+</header>
+
+
+<body>
+
+
+<div class="souvenir-container">
+
+<!-- ITEM 1 -->
+<div class="souvenir-item">
+    <img 
+        src="../images/dezalb-mexico-1311551_1280.jpg"  alt="Sabertooth Totem" 
+        title="Sabertooth Totem"
+        data-large="../images/dezalb-mexico-1311551_1280.jpg"
+    >
+<section>
+    <h3>Sabertooth Totem</h3>
+
+    <p class="price">$24.99</p>
+
+    <p class="description">
+        Material: Carved bone<br>
+        Location Found: Northern Steppe<br>
+        Purpose: Ritual protection<br>
+    </p>
+
+    <p class="blurb">“Carry the strength of the ancient hunters.”</p>
+
+    <button onclick="alert('Sabertooth Totem added to cart!: $24.99')">
+        Add Sabertooth Totem to cart
+    </button>
+    </section>
+</div>
+
+
+<!-- ITEM 2 -->
+        <div class="souvenir-item">
+            <img 
+                src="../images/zumimak-south-america-4418279_1280.jpg"
+                alt="Sunrise Amulet"
+                title="Sunrise Amulet"
+                data-large="../images/zumimak-south-america-4418279_1280.jpg"
+            >
+<section>
+            <h3>Sunrise Amulet</h3>
+            <p class="price">$14.50</p>
+
+            <p class="description">
+                Material: Fired clay<br>
+                Location Found: River Delta<br>
+                Purpose: Daily blessing ritual<br>
+            </p>
+
+            <p class="blurb">“A new dawn in the palm of your hand.”</p>
+
+            <button onclick="alert('Sunrise Amulet added to cart!: $14.50')">
+                Add Sunrise Amulet to cart
+            </button>
+
+            </section>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="souvenir-item">
+            <img 
+                src="../images/roses_street-generated-7694242_1280.jpg"
+                alt="Festival Mask"
+                title="Festival Mask"
+                data-large="../images/roses_street-generated-7694242_1280.jpg"
+            >
+<section>
+            <h3>Festival Mask</h3>
+            <p class="price">$32.00</p>
+
+            <p class="description">
+                Material: Painted wood<br>
+                Location Found: Coastal Village<br>
+                Purpose: Seasonal celebration<br>
+            </p>
+
+            <p class="blurb">“Dance with the spirits of the sea.”</p>
+
+            <button onclick="alert('Festival Mask added to cart!: $32.00')">
+                Add Festival Mask to cart
+            </button>
+
+            </section>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="souvenir-item">
+            <img 
+                src="../images/bkrmadtya-heritage-653747_1280.jpg"
+                alt="Traveler’s Coin"
+                title="Traveler’s Coin"
+                data-large="../images/bkrmadtya-heritage-653747_1280.jpg"
+            >
+<section>
+            <h3>Traveler’s Coin</h3>
+            <p class="price">$9.99</p>
+
+            <p class="description">
+                Material: Bronze<br>
+                Location Found: Mountain Pass<br>
+                Purpose: Safe‑journey token<br>
+            </p>
+
+            <p class="blurb">“May your path be steady and your steps be sure.”</p>
+
+            <button id= "cart" onclick="alert('Traveler’s Coin added to cart!: $9.99')">
+                Add Traveler’s Coin to cart
+            </button>
+            </section>
+        </div>
+
+    </div>
+
+
+
+
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <img id="modal-img">
+</div>
+
+<script>
+    
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const closeBtn = document.querySelector(".close");
+    
+
+    // When any souvenir image is clicked
+    document.querySelectorAll(".souvenir-item img").forEach(img => {
+
+        img.addEventListener("click", () => {
+            modal.style.display = "block";
+            modalImg.src = img.dataset.large; 
+        });
+
+    });
+
+    // Close button
+    closeBtn.onclick = () => {
+        modal.style.display = "none";
+    };
+
+    // Clicking outside the image closes modal
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+
+<footer>
+<section>
+        <p id="foot">Academic Notice: This page is for educational purposes only.</p>
+        <p id="foot">Ai was used to generate images for this page.</p>
+        </section>
+        <p id="link"><a href="https://www.bellevuecollege.edu">Bellevue College</a></p>
+    </footer>
+
+</html>
