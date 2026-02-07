@@ -15,13 +15,13 @@ font-size: 7.5em;
 
 button {
     background-color: #c9d0dda3;
-    border: none;
+  border: 2px solid #f7f3f3;
     color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 25px;
     margin: 4px 2px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
