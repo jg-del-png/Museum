@@ -96,7 +96,10 @@ a{text-decoration: none; color: #333; font-weight: bold;}
 
 
 
-footer{text-align: center; margin-top: 20px; color: #666;}
+footer{text-align: center; margin-top: 20px; color: #666;
+      
+      background-color: #ffffffcc;
+      }
 
 
 header {
@@ -121,5 +124,6 @@ body {
     background-position: center;
    
 }
+
 
 
