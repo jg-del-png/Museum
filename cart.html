@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Museum Cart</title>
+
+  <style>
+    main { max-width: 720px; margin: 0 auto; padding: 16px; }
+    .controls { margin: 8px 0 12px; }
+    .empty { padding: 12px; border: 1px dashed #666; font-style: italic; }
+    pre#summary { background: #f8f8f8; padding: 12px; font-family: ui-monospace, Menlo, Consolas; }
+    .actions { margin-top: 12px; display: flex; gap: 8px; }
+    .item-row { margin-bottom: 8px; }
+    .qty-btn { margin: 0 4px; }
+    #floatingCart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>Shopping Cart</h1>
+</header>
+
+<main>
+
+  <!-- MEMBER DISCOUNT -->
+  <div class="controls">
+    <label><input type="checkbox" id="memberToggle"> Member Discount (15%)</label>
+  </div>
+
+  <!-- STATES -->
+  <div id="emptyMsg" class="empty" hidden>Your cart is empty.</div>
+  <div id="items" hidden></div>
+  <pre id="summary" hidden></pre>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button id="clearBtn">Clear Cart</button>
+    <a href="html/giftshop.html">Keep Shopping</a>
+  </div>
+
+</main>
+
+<script>
+/* =================== CART STORAGE =================== */
+const CART_KEY = "museumCartV1";
+
+function readCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+  catch { return []; }
+}
+
+function writeCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+/* =================== UTILITIES =================== */
+function money(n) {
+  const sign = n < 0 ? -1 : 1;
+  const s = "$" + Math.abs(n).toFixed(2);
+  return sign < 0 ? "(" + s + ")" : s;
+}
+
+const TAX_RATE = 0.102;
+const MEMBER_DISCOUNT_RATE = 0.15;
+const SHIPPING_RATE = 25.00;
+
+const VOLUME_TIERS = [
+  [0.00, 49.99, 0.00],
+  [50.00, 99.99, 0.05],
+  [100.00, 199.99, 0.10],
+  [200.00, Infinity, 0.15]
+];
+
+function volumeRate(total) {
+  for (const [min, max, rate] of VOLUME_TIERS) {
+    if (total >= min && total <= max) return rate;
+  }
+  return 0;
+}
+
+/* =================== CART ACTIONS =================== */
+function removeItem(id) {
+  const next = readCart().filter(it => it.id !== id);
+  writeCart(next);
+  render();
+}
+
+function changeQty(id, delta) {
+  const cart = readCart();
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+
+  item.qty += delta;
+  if (item.qty <= 0) {
+    removeItem(id);
+    return;
+  }
+
+  writeCart(cart);
+  render();
+}
+
+function clearCart() {
+  writeCart([]);
+  document.getElementById("memberToggle").checked = false;
+  render();
+}
+
+/* =================== RENDER =================== */
+function render() {
+  const itemsDiv = document.getElementById("items");
+  const summaryPre = document.getElementById("summary");
+  const emptyMsg = document.getElementById("emptyMsg");
+  const isMember = document.getElementById("memberToggle").checked;
+
+  let cart = readCart().filter(it => it.qty > 0 && it.unitPrice > 0);
+
+  if (cart.length === 0) {
+    emptyMsg.hidden = false;
+    itemsDiv.hidden = true;
+    summaryPre.hidden = true;
+    return;
+  }
+
+  emptyMsg.hidden = true;
+  itemsDiv.hidden = false;
+  summaryPre.hidden = false;
+
+  /* ---------- ITEM LIST ---------- */
+  itemsDiv.innerHTML = "";
+  let itemTotal = 0;
+
+  cart.forEach(item => {
+    const lineTotal = item.unitPrice * item.qty;
+    itemTotal += lineTotal;
+
+    const row = document.createElement("div");
+    row.className = "item-row";
+    row.innerHTML = `
+      ${item.qty} × ${item.name} — ${money(lineTotal)}
+      <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+      <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+      <button onclick="removeItem(${item.id})">Remove</button>
+    `;
+    itemsDiv.appendChild(row);
+  });
+
+  /* ---------- DISCOUNTS ---------- */
+  const volRate = volumeRate(itemTotal);
+  const volDiscount = itemTotal * volRate;
+  const memberDiscount = isMember ? itemTotal * MEMBER_DISCOUNT_RATE : 0;
+
+  let appliedVolume = 0;
+  let appliedMember = 0;
+
+  if (volDiscount > 0 && memberDiscount > 0) {
+    const choice = prompt(
+      "Only one discount may be applied.\n" +
+      "Type 'M' for Member or 'V' for Volume:"
+    );
+
+    if (choice && choice.toUpperCase() === "M") {
+      appliedMember = memberDiscount;
+    } else {
+      appliedVolume = volDiscount;
+    }
+  } else {
+    if (memberDiscount > 0) appliedMember = memberDiscount;
+    else if (volDiscount > 0) appliedVolume = volDiscount;
+  }
+
+  /* ---------- MATH ---------- */
+  const discounted = itemTotal - appliedMember - appliedVolume;
+  const taxableSubtotal = discounted + SHIPPING_RATE;
+  const taxAmount = taxableSubtotal * TAX_RATE;
+  const invoiceTotal = taxableSubtotal + taxAmount;
+
+  /* ---------- SUMMARY ---------- */
+  summaryPre.textContent =
+`Subtotal of Items:     ${money(itemTotal)}
+Volume Discount:        ${money(-appliedVolume)}
+Member Discount:        ${money(-appliedMember)}
+Shipping:               ${money(SHIPPING_RATE)}
+----------------------------------------
+Subtotal (Taxable):     ${money(taxableSubtotal)}
+Tax Rate:               ${(TAX_RATE * 100).toFixed(1)}%
+Tax Amount:             ${money(taxAmount)}
+----------------------------------------
+INVOICE TOTAL:          ${money(invoiceTotal)}`;
+}
+
+/* =================== EVENTS =================== */
+document.getElementById("memberToggle").addEventListener("change", render);
+document.getElementById("clearBtn").addEventListener("click", clearCart);
+
+/* First paint */
+render();
+</script>
+
+</body>
+</html>
