@@ -29,8 +29,12 @@
 
 
     <div class="collection-item">
-        <h2>Ancient Slab</h2>
-        <img src="../images/barasa81-hieroglyphs-587138_1280.jpg" alt="Ancient Artifacts">
+        <h2>Ancient Greek Amphora</h2>
+        <img src="../images/barasa81-hieroglyphs-587138_1280.jpg" alt="Ancient Artifacts"
+        
+        data-large="../images/barasa81-hieroglyphs-587138_1280.jpg"
+          data-modal-target="#info-inkstone"
+        >
        
  <section>
   <h2>Description</h2>
@@ -79,7 +83,10 @@
 
     <div class="collection-item">
         <h2>Viking Iron Seax</h2>
-        <img src="../images/lidago-weapon-8049990_1280.jpg" alt="Historical Documents">
+        <img src="../images/lidago-weapon-8049990_1280.jpg" alt="Historical Documents"
+         data-large="../images/lidago-weapon-8049990_1280.jpg"
+          data-modal-target="#info-axe"
+        >
 
 
       <section>
@@ -133,7 +140,10 @@
 
     <div class="collection-item">
         <h2>Roman Bronze Oil Lamp</h2>
-        <img src="../images/12019-griffin-171407_1280.jpg" alt="Cultural Artworks">
+        <img src="../images/12019-griffin-171407_1280.jpg" alt="Cultural Artworks"
+        data-large="../images/12019-griffin-171407_1280.jpg"
+        data-modal-target="#info-bird"
+        >
         
   <section>
   <h2>Description</h2>
@@ -179,34 +189,125 @@
     </div>
 
 
+</div>
 
 
+<div class="modal-item" id="info-inkstone" hidden>
+  <h2 id="modal-title">Ancient Greek Amphora</h2>
+ <div class="artifact-info">
+  
 
-
-
-
-
-
-
+  <ul>
+    <li><strong>Name:</strong> Ancient Greek Amphora</li>
+    <li><strong>Date:</strong> c. 750 BCE</li>
+    <li><strong>Place:</strong> Athens, Greece</li>
+    <li><strong>Culture:</strong> Ancient Greek</li>
+    <li><strong>Medium:</strong> Terracotta, slip-painted</li>
+    <li><strong>Dimensions:</strong> 45 cm × 25 cm</li>
+    <li><strong>Credit Line:</strong> Gift of the Classical Antiquities Society</li>
+    <li><strong>Accession Number:</strong> 2023.14.01</li>
+    <li><strong>Use & Function:</strong> Amphorae were used to store and transport goods such as wine, olive oil, and grains. Their tall shape and sturdy handles made them easy to carry and stack.</li>
+    <li><strong>Cultural Context:</strong> This amphora reflects the rise of geometric art in early Greek society. The patterns symbolize order and structure, values central to Greek identity during the Geometric Period.</li>
+  </ul>
+</div>
 
 </div>
 
 
+<div class="modal-item" id="info-axe" hidden>
+  <h2 id="modal-title">Viking Iron Seax</h2>
+  <div class="artifact-info">
+  <ul>
+    <li><strong>Name:</strong> Viking Iron Seax</li>
+    <li><strong>Material:</strong> Iron blade, carved wood handle</li>
+    <li><strong>Estimated Age:</strong> 9th century CE</li>
+    <li><strong>Location Found:</strong> Scandinavia</li>
+    <li><strong>Likely Purpose:</strong> The seax was a multipurpose tool used for cutting, carving, and daily tasks. It also served as a weapon for self-defense and combat, reflecting the practical and martial aspects of Norse life.</li>
+    <li><strong>Physical Properties:</strong> Wood, iron</li>
+    <li><strong>Cultural Context:</strong> The seax was so iconic that some tribes were named after it, such as the Saxons. It symbolized self-reliance, craftsmanship, and personal identity in Norse culture.</li>
+    <li><strong>Burial / Habitat Context:</strong> Multipurpose tool</li>
+    <li><strong>Comparison:</strong> Similar to the Dane axe used for combat.</li>
+    <li><strong>Catalog / Provenience ID:</strong> 2023.22.04</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="modal-item" id="info-bird" hidden>
+  <h2 id="modal-title">Roman Bronze Oil Lamp</h2>
+ <div class="artifact-info">
+  <ul>
+    <li><strong>Name:</strong> Roman Bronze Oil Lamp</li>
+    <li><strong>Description:</strong> A small bronze lamp designed to hold oil and a wick, featuring a simple loop handle and circular body. These lamps were common household items in the Roman Empire.</li>
+    <li><strong>Date:</strong> 2nd century CE</li>
+    <li><strong>Place:</strong> Rome, Italy</li>
+    <li><strong>Culture:</strong> Roman Empire</li>
+    <li><strong>Medium:</strong> Cast bronze</li>
+    <li><strong>Dimensions:</strong> 12 cm</li>
+    <li><strong>Credit Line:</strong> Classical Studies Department Collection</li>
+    <li><strong>Accession Number:</strong> 2023.52.11</li>
+    <li><strong>Use & Function:</strong> The bronze lamp was used for lighting homes and public spaces in ancient Rome. It was a common household item, often placed on tables or in corners of rooms.</li>
+    <li><strong>Cultural Context:</strong> Lighting played a symbolic role in Roman domestic religion. Lamps were often left as offerings in temples or used during festivals and rituals.</li>
+  </ul>
+</div>
+
+</div>
+
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <span class="close">&times;</span>
+   <img id="modal-img">
+    <div id="modal-body"></div> 
+</div>
+
+<script>
+    
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+     const modalBody  = document.getElementById('modal-body');
+    const closeBtn = document.querySelector(".close");
+    
+
+    // When any souvenir image is clicked
+    document.querySelectorAll(".collection-item img").forEach(img => {
+
+        img.addEventListener("click", () => {
+          const selector = img.dataset.modalTarget;
+          const src = document.querySelector(selector);
+          
+            modal.style.display = "block";
+            modalImg.src = img.dataset.large; 
+            modalBody.innerHTML = src.innerHTML; 
+             document.body.style.overflow = 'hidden'; 
+        });
+
+    });
+
+    // Close button
+    closeBtn.onclick = () => {
+        modal.style.display = "none";
+        
+document.body.style.overflow = "auto";
+
+    };
+
+    // Clicking outside the image closes modal
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    };
 
 
 
 
+</script>
 
 
 
 
-
-
-
-
-
-
-  
 </body>
 
  <footer>

@@ -30,7 +30,10 @@
 
     <div class="collection-item">
         <h2>Woven Textile</h2>
-        <img src="../images/geralt-parchment-6294975_1280.jpg" alt="Ancient Artifacts">
+        <img src="../images/Wari_cap.jpg" alt="Ancient Artifacts"
+        data-large="../images/Wari_cap.jpg"
+        data-modal-target="#info-textile"
+        >
        
 <section>
   <h2>Description</h2>
@@ -82,7 +85,10 @@
 
     <div class="collection-item">
         <h2>Ottoman Iznik Ceramic Tile</h2>
-        <img src="../images/mzmatuszewski0-mesopotamia-1827242_1280.jpg" alt="Historical Documents">
+        <img src="../images/126467747_1_x (1).jpeg" alt="Historical Documents"
+        data-large="../images/126467747_1_x (1).jpeg"
+        data-modal-target="#info-tile"
+        >
 
 
       <section>
@@ -138,7 +144,10 @@
 
     <div class="collection-item">
         <h2>Egyptian Faience Ushabti</h2>
-        <img src="../images/mcanden-ai-generated-8130771_1280.png" alt="Cultural Artworks">
+        <img src="../images/Egyptian_Late_period_faience_shabti_for_Psamtekhen_born_to_Nit_iy_et_1_7_master.jpg" alt="Cultural Artworks"
+        data-large="../images/Egyptian_Late_period_faience_shabti_for_Psamtekhen_born_to_Nit_iy_et_1_7_master.jpg"
+        data-modal-target="#info-ush"
+        >
         
  <section>
   <h2>Description</h2>
@@ -186,13 +195,56 @@
 
     </div>
 
+</div>
 
 
 
 
+<div class="modal-item" id="info-textile" hidden>
+  <h2 id="modal-title">Woven Textile</h2>
+ <div class="artifact-info">
+
+  <ul>
+    <li><strong>Name:</strong> Woven Textile</li>
+    <li><strong>Material:</strong> Camelid fiber, natural dyes</li>
+    <li><strong>Estimated Age:</strong> 1200 CE</li>
+    <li><strong>Location Found:</strong> Peru</li>
+    <li><strong>Likely Purpose:</strong> Textiles were used for clothing, ceremonial garments, and offerings. High‑quality textiles were considered more valuable than gold in Andean culture.</li>
+    <li><strong>Physical Properties:</strong> Colorful, woven</li>
+    <li><strong>Cultural Context:</strong> Andean textiles encoded social status, lineage, and regional identity. Their patterns often represented cosmological beliefs and agricultural cycles.</li>
+    <li><strong>Burial / Habitat Context:</strong> Clothing</li>
+    <li><strong>Comparison:</strong> Similar to woven tapestries in medieval Europe.</li>
+    <li><strong>Catalog / Provenience ID:</strong> 2023.31.07</li>
+  </ul>
+</div>
+
+</div>
 
 
+<div class="modal-item" id="info-tile" hidden>
+  <h2 id="modal-title">Ottoman Iznik Ceramic Tile</h2>
+<div class="artifact-info">
+  <ul>
+    <li><strong>Name:</strong> Ottoman Iznik Ceramic Tile</li>
+    <li><strong>Material:</strong> Glazed ceramic</li>
+    <li><strong>Estimated Age:</strong> 16th century CE</li>
+    <li><strong>Location Found:</strong> Iznik, Turkey</li>
+    <li><strong>Likely Purpose:</strong> Iznik tiles were used as architectural decoration, adding color and symbolic meaning to religious and royal buildings.</li>
+    <li><strong>Physical Properties:</strong> Chiseled, stone</li>
+    <li><strong>Cultural Context:</strong> The floral motifs reflect Ottoman artistic traditions influenced by Persian, Byzantine, and Islamic aesthetics.</li>
+    <li><strong>Burial / Habitat Context:</strong> Architectural decoration</li>
+    <li><strong>Comparison:</strong> Turkish hand‑painted tiles often feature floral and arabesque motifs, reflecting the artistic heritage of Turkey and its influence on Ottoman art.</li>
+    <li><strong>Catalog / Provenience ID:</strong> 2023.91.15</li>
+  </ul>
+</div>
 
+</div>
+
+<div class="modal-item" id="info-ush" hidden>
+  <h2 id="modal-title">Egyptian Faience Ushabti</h2>
+ 
+
+<div class="artifact-info">  <ul> <li><strong>Name:</strong> Egyptian faience ushabti</li> <li><strong>Material:</strong> Faience with glaze</li> <li><strong>Estimated Age:</strong> 600 BCE</li> <li><strong>Location Found:</strong> Thebes, Egypt</li> <li><strong>Likely Purpose:</strong> Ushabtis served as magical servants who would perform labor for the deceased in the afterlife. They were placed in tombs as part of burial rituals.</li> <li><strong>Physical Properties:</strong> Spherical brown glazed</li> <li><strong>Cultural Context:</strong> Burial rituals</li> <li><strong>Burial / Habitat Context:</strong> These figurines reflect Egyptian beliefs about the afterlife and the importance of ensuring comfort and labor assistance for the dead.</li> <li><strong>Comparison:</strong> Similar to the Haniwa (埴輪) terracotta clay figures that were made for ritual use and buried with the dead as funerary objects during the Kofun period.</li> <li><strong>Catalog / Provenience ID:</strong> 2023.61.03</li> </ul> </div>
 
 
 
@@ -200,15 +252,56 @@
 </div>
 
 
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <img id="modal-img">
+    <div id="modal-body"></div> 
+</div>
+
+<script>
+    
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+     const modalBody  = document.getElementById('modal-body');
+    const closeBtn = document.querySelector(".close");
+    
+
+    // When any souvenir image is clicked
+    document.querySelectorAll(".collection-item img").forEach(img => {
+
+        img.addEventListener("click", () => {
+          const selector = img.dataset.modalTarget;
+          const src = document.querySelector(selector);
+          
+            modal.style.display = "block";
+            modalImg.src = img.dataset.large; 
+            modalBody.innerHTML = src.innerHTML; 
+             document.body.style.overflow = 'hidden'; 
+        });
+
+    });
+
+    // Close button
+    closeBtn.onclick = () => {
+        modal.style.display = "none";
+        
+document.body.style.overflow = "auto";
+
+    };
+
+    // Clicking outside the image closes modal
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    };
 
 
 
 
-
-
-
-
-
+</script>
 
 
 
